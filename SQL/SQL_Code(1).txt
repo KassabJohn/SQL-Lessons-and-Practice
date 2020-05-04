@@ -1,0 +1,71 @@
+TRG = TRIGGER
+A = AFTER ; B = BEFORE
+I = INSERT ; U = UPDATE ; D = DELETE
+R = ROW
+AIR ; ADR ; AUR
+CREATE DATABASE ma_base
+***********************
+CREATE TABLE utilisateur
+(
+    id INT PRIMARY KEY NOT NULL,
+    nom VARCHAR(100),
+    prenom VARCHAR(100),
+    email VARCHAR(255),
+    date_naissance DATE,
+    pays VARCHAR(255),
+    ville VARCHAR(255),
+    code_postal VARCHAR(5),
+    nombre_achat INT
+)
+***********************
+CREATE TABLE `nom_de_la_table` (
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  [...]
+);
+************************
+CREATE UNIQUE INDEX `index_nom` ON `table` (`colonne1`);
+************************
+ALTER TABLE Orders
+ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+************************
+BIR ; BDR ; BUR
+OLD.nom_colonne uniquement pour DELETE et UPDATE, représente la valeur avant modif
+NEW.nom_colonne uniquement pour INSERT et UPDATE, représente nouvelle valeur
+**********************
+DELIMITER //
+CREATE TRIGGER TRG_BDR_Client
+BEFORE DELETE 
+ON CLIENT FOR EACH ROW 
+BEGIN 
+	UPDATE societe SET Nb_Client = Nb_Client - 1
+	WHERE societe.codesociete = OLD.codesociete;
+END;
+//
+DELIMITER ;
+**********************
+DELIMITER //
+CREATE TRIGGER AIR_TRG_Client_Societe
+AFTER INSERT 
+ON CLIENT FOR EACH ROW 
+BEGIN 
+	SELECT C.Nom, C.Prenom, S.Nom INTO OUTFILE 'C:\Users\rodol\OneDrive\Bureau\SQL\test.csv'
+	FIELDS TERMINATED BY ';' 
+	LINES TERMINATED BY '\n'
+	FROM CLIENT C
+	JOIN societe S ON C.CodeSociete = S.CodeSociete
+	WHERE C.CodeCli = NEW.CodeCli;
+END;
+//
+DELIMITER ;
+*********************
+SELECT
+FROM
+JOIN	ON
+JOIN	ON
+*********************
+SELECT
+FROM
+UNION
+SELECT
+FROM
+*********************

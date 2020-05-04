@@ -1,0 +1,47 @@
+TRIGGERS
+
+ALTER TABLE Client
+add foreign key(id) references Societe(id_societe);
+
+
+
+JOINTURES
+
+Compter le nombre de produits par fournisseur
+
+select societe, count(*) as "nb de produits"
+from fournisseur f join produit p
+where f.nofour = p.nofour
+group by societe
+order by 2;
+
+
+Compter le nombre de produits par pays d'origine des fournisseurs
+
+select pays, count(*) as "nb de produits"
+from fournisseur join produit
+where fournisseur.nofour = produit.nofour
+group by pays
+order by 2 desc;
+
+
+Compter pour chaque employé le nombre de commandes gérées, même pour ceux n'en ayant fait aucune
+
+select nom, prenom, count (nocom) as "nb commande"
+from employe left outer join commande
+where employe.noemp = commande.noemp
+group by nom, prenom
+order by 3;
+
+
+Compter pour chaque produit, le nombre de commandes où il apparaît, même pour ceux dans aucune commande
+
+select nomprod, count(distinct nocom)
+from produit left outer join detailcommande
+on produit.refprod = detailcommande.refprod
+group by nomprod
+order by 2;
+
+
+NE PAS OUBLIER LE POINT VIRGULE
+METTRE DES IN A LA PLACE DES = DANS LES SOUS REQUETES
